@@ -1,0 +1,29 @@
+# Ignore virtual environments
+venv/
+.venv/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment files
+.env
+
+# Ignore version control and editor files
+.git
+.gitignore
+.vscode/
+*.log
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+
+# Django local DB (if any)
+db.sqlite3
+
+# Docker itself
+.dockerignore
+

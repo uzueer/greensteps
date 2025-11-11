@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GreenSteps - Carbon Footprint Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>GreenSteps</h1>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="nav-links">
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'add_activity' %}">Add Activity</a>
+                <a href="{% url 'analytics' %}">Analytics</a>
+                <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

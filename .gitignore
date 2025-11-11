@@ -1,0 +1,22 @@
+# Virtual environment
+venv/
+.env
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Django
+db.sqlite3
+
+# Docker
+*.pid
+

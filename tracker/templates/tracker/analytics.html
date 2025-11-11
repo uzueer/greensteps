@@ -1,0 +1,121 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Analytics - GreenSteps{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="analytics-header">
+        <h2>Your Carbon Footprint Analytics</h2>
+        <p class="subtitle">Visualize your emissions data</p>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Emissions by Category</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>Daily Emissions (Last 30 Days)</h3>
+            <canvas id="dailyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="insights-section">
+        <h3>Key Insights</h3>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <h4>🎯 Track Consistently</h4>
+                <p>Regular tracking helps identify patterns in your carbon footprint.</p>
+            </div>
+            <div class="insight-card">
+                <h4>🌱 Small Changes Matter</h4>
+                <p>Reducing emissions in each category adds up to significant impact.</p>
+            </div>
+            <div class="insight-card">
+                <h4>📊 Monitor Trends</h4>
+                <p>Use analytics to see how your actions reduce emissions over time.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const categoryData = {{ category_data|safe }};
+const dailyData = {{ daily_data|safe }};
+
+const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+new Chart(categoryCtx, {
+    type: 'doughnut',
+    data: {
+        labels: Object.keys(categoryData),
+        datasets: [{
+            label: 'CO₂ Emissions (kg)',
+            data: Object.values(categoryData),
+            backgroundColor: [
+                '#22c55e',
+                '#3b82f6',
+                '#f59e0b',
+                '#ef4444',
+                '#8b5cf6',
+                '#ec4899'
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false
+            }
+        }
+    }
+});
+
+const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+const sortedDates = Object.keys(dailyData).sort();
+new Chart(dailyCtx, {
+    type: 'line',
+    data: {
+        labels: sortedDates,
+        datasets: [{
+            label: 'CO₂ Emissions (kg)',
+            data: sortedDates.map(date => dailyData[date]),
+            borderColor: '#22c55e',
+            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return value + ' kg';
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
