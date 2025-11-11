@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  #django app
+  web:
+    build: .
+    container_name: greensteps_web
+    env_file:
+      - .env
+    command: gunicorn greensteps.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_data:/app/static
+      - media_data:/app/media
+    expose:
+      - 8000
+    depends_on:
+      - db
+    networks:
+      - greensteps_network
+
+  #MYSQL database
+  db:
+    image: mysql:8.0
+    container_name: greensteps_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - greensteps_network
+    # No ports exposed to the outside — security best practice
+
+    #Nginx server
+  nginx:
+    image: nginx:latest
+    container_name: greensteps_nginx
+    ports:
+      - "80:80" # Expose Nginx publicly
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_data:/app/static
+      - media_data:/app/media
+    depends_on:
+      - web
+    networks:
+      - greensteps_network
+
+# -----------------------------
+# 🧱 Named Volumes
+# -----------------------------
+volumes:
+  mysql_data:
+  static_data:
+  media_data:
+
+    # -----------------------------
+    # 🌐 Custom Network
+    # -----------------------------
+networks:
+  greensteps_network:
+    driver: bridge
