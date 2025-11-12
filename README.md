@@ -181,13 +181,31 @@ INSERT INTO tracker_emissionfactor (category_id, activity_name, co2_per_unit, un
 
 ## 🖼️ Screenshots
 
-| Dashboard                               | Add Activity                                  | Admin Panel                                 |
-| --------------------------------------- | --------------------------------------------- | ------------------------------------------- |
-| ![Dashboard](screenshots/dashboard.png) | ![Add Activity](screenshots/add_activity.png) | ![Admin Panel](screenshots/admin_panel.png) |
+### 🌍 Login Page
+![Login Page](screenshots/login.png)
 
-> *(Upload screenshots from your deployed app in the `/screenshots/` folder)*
+### 📊 Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### ➕ Add New Activity
+![Add Activity](screenshots/add.png)
+
+### 🧮 Admin Panel
+![Admin Panel](screenshots/admin.png)
 
 ---
+
+### 🧰 Docker Setup (Server Deployment Proof)
+
+#### 🧱 Docker Containers, Volumes & Network
+![Docker Info](screenshots/docker_info.png)
+
+#### ⚙️ Docker Resource Usage
+![Docker Stats](screenshots/docker_stats.png)
+
+#### 🟢 Docker Service Status
+![Docker Status](screenshots/docker_status.png)
+
 
 ## 📊 Future Roadmap
 
