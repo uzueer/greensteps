@@ -1,14 +1,51 @@
-# 🌱 GreenSteps – Carbon Footprint Tracker
+# 🚀 GreenSteps – 2-Tier Full-Stack Application Deployed on AWS (Django + MySQL + Docker + Nginx)
 
-A full-stack sustainability tracker built with **Django**, **MySQL**, **Docker**, and **Nginx**, deployed on **AWS EC2**.
-**GreenSteps** helps users **track daily activities** and calculate their **carbon footprint**, contributing to **UN SDG 13: Climate Action**.
+**GreenSteps** is a containerized **2-Tier Web Application** that promotes sustainability by tracking users’ daily carbon footprint.
+It follows a **DevOps-based deployment architecture** using **Docker, Docker Compose, Nginx reverse proxy**, and **AWS EC2** for cloud hosting.
+
+This project demonstrates a complete **DevOps pipeline** — from development and containerization to production deployment on AWS.
+
+---
+
+## 🏗️ Architecture Overview
+
+### 🧩 Application Architecture (2-Tier)
+
+**Tier 1 – Application Layer (Django + Gunicorn):**
+- Handles user requests and business logic
+- Served through Gunicorn WSGI server inside a Docker container
+
+**Tier 2 – Database Layer (MySQL):**
+- Stores user data, categories, activities, and emission factors
+- Persistent storage handled by **Docker Volumes**
+
+**Reverse Proxy Layer (Nginx):**
+- Serves static files and routes traffic to the Django container
+- Exposed via port 80 to the public internet
+
+**Infrastructure Layer:**
+- Hosted on **AWS EC2 (Ubuntu 24.04 LTS)**
+- Managed with **Docker Compose**
+- Communication over **Docker Bridge Network**
 
 ---
 
 ## 🌍 Live Deployment
 
-🚀 **Live Demo:** [http://13.127.113.33](http://13.127.113.33)
+🔗 **Live Demo:** [http://13.127.113.33](http://13.127.113.33)
 🔑 **Admin Panel:** [http://13.127.113.33/admin](http://13.127.113.33)
+
+---
+
+## 🧠 Project Description
+
+GreenSteps empowers users to take meaningful steps toward sustainability by tracking CO₂ emissions from daily activities such as transportation, electricity, and food consumption.
+
+Users can:
+✅ Log eco-related activities
+✅ View total CO₂ footprint
+✅ Analyze emission patterns
+✅ Manage categories and emission factors through the admin panel
 
 ---
 
@@ -16,27 +53,18 @@ A full-stack sustainability tracker built with **Django**, **MySQL**, **Docker**
 
 | Layer | Technology |
 |--------|-------------|
-| **Frontend** | HTML, CSS, JAVASCRIPT|
+| **Frontend** | HTML, CSS, JavaScript |
 | **Backend** | Django 5 (Python 3.11) |
 | **Database** | MySQL 8 |
 | **Server** | Gunicorn + Nginx |
-| **Deployment** | Docker, Docker Compose, Docker Volume ,Docker Network , AWS EC2 (Ubuntu 24.04) |
+| **Containerization** | Docker & Docker Compose |
+| **Hosting** | AWS EC2 (Ubuntu 24.04 LTS) |
+| **Persistence** | Docker Volumes |
+| **Networking** | Docker Bridge Network |
 
 ---
 
-## 🧱 Project Overview
-
-GreenSteps empowers users to make climate-conscious choices by tracking CO₂ emissions from daily activities — such as transportation, food, and electricity use.
-
-Users can:
-✅ Log eco-related activities
-✅ View their total CO₂ footprint
-✅ Analyze emission patterns
-✅ Manage categories and emission factors via Django Admin
-
----
-
-## 🗂 Project Structure
+## 🗂️ Project Structure
 
 ```
 
@@ -45,7 +73,7 @@ greensteps/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-├── tracker/                 # Core app for carbon tracking
+├── tracker/                 # Core carbon tracking app
 │   ├── models.py
 │   ├── views.py
 │   ├── urls.py
@@ -65,7 +93,7 @@ greensteps/
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in your root directory using this template:
+Create a `.env` file in the root directory based on the example below:
 
 ```bash
 DJANGO_SECRET_KEY=your_secret_key_here
@@ -80,13 +108,13 @@ DB_HOST=db
 DB_PORT=3306
 ````
 
-> ⚠️ Keep `.env` out of version control. Use `.env.example` instead.
+> ⚠️ Keep `.env` out of version control — only commit `.env.example`.
 
 ---
 
-## 🐳 Deployment Guide (AWS EC2 + Docker)
+## 🐳 Docker Deployment Steps (AWS EC2)
 
-### 1️⃣ Clone the Repository
+### 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/syeduzair/greensteps.git
@@ -94,23 +122,23 @@ cd greensteps
 cp .env.example .env
 ```
 
-### 2️⃣ Build and Run the Containers
+### 2️⃣ Build & Start Containers
 
 ```bash
 docker compose up -d --build
 ```
 
-### 3️⃣ Check Running Containers
+### 3️⃣ Verify Container Status
 
 ```bash
 docker ps
 ```
 
-Make sure `greensteps_db` shows `(healthy)` and `greensteps_web` + `greensteps_nginx` are running.
+✅ `greensteps_db` → (healthy)
+✅ `web` → Django + Gunicorn
+✅ `greensteps_nginx` → Reverse Proxy
 
----
-
-### 4️⃣ Setup Django Inside Container
+### 4️⃣ Initialize Django Setup
 
 ```bash
 docker compose exec web python manage.py migrate
@@ -123,16 +151,14 @@ docker compose restart nginx
 
 ## 🧮 Database Schema
 
-| Table                    | Description                                |
-| ------------------------ | ------------------------------------------ |
-| `auth_user`              | Default Django user table                  |
-| `tracker_category`       | Categories (e.g., Transport, Food, Energy) |
-| `tracker_emissionfactor` | CO₂ emission factors for each activity     |
-| `tracker_activity`       | User activity logs                         |
+| Table                    | Description                          |
+| ------------------------ | ------------------------------------ |
+| `auth_user`              | Django built-in users                |
+| `tracker_category`       | Categories (Transport, Energy, etc.) |
+| `tracker_emissionfactor` | CO₂ factors for each activity        |
+| `tracker_activity`       | User-logged activity records         |
 
----
-
-### Example Data (Insert via MySQL)
+### Example Data
 
 ```sql
 INSERT INTO tracker_category (name, icon, color) VALUES
@@ -154,91 +180,101 @@ INSERT INTO tracker_emissionfactor (category_id, activity_name, co2_per_unit, un
 
 ---
 
-## 🧠 Features
+## 🧠 Application Features
 
-✅ User registration & login
-✅ Add and track activities with date and quantity
+✅ User authentication & registration
+✅ Track activities by quantity and date
 ✅ Real-time CO₂ emission calculation
-✅ Django Admin for managing emission factors
-✅ Containerized setup (Django + MySQL + Nginx)
-✅ Live on AWS EC2 using Docker Compose
+✅ Admin panel for category & emission management
+✅ Deployed via Docker Compose with persistent data
+✅ Production-ready with Nginx reverse proxy and Gunicorn
 
 ---
 
-## 🧰 Common Docker Commands
+## 🧰 Common Docker & DevOps Commands
 
-| Command                                                            | Description                              |
-| ------------------------------------------------------------------ | ---------------------------------------- |
-| `docker compose up -d --build`                                     | Build & start containers                 |
-| `docker compose down -v`                                           | Stop & remove all containers and volumes |
-| `docker compose logs -f`                                           | View real-time logs                      |
-| `docker exec -it web bash`                                         | Access Django shell                      |
-| `docker compose exec web python manage.py migrate`                 | Run migrations                           |
-| `docker compose exec web python manage.py createsuperuser`         | Create admin                             |
-| `docker compose exec web python manage.py collectstatic --noinput` | Collect static files                     |
+| Command                               | Description                        |
+| ------------------------------------- | ---------------------------------- |
+| `docker compose up -d --build`        | Build & run all containers         |
+| `docker compose down -v`              | Stop & remove containers & volumes |
+| `docker compose logs -f`              | Live logs of all services          |
+| `docker exec -it web bash`            | Access Django container            |
+| `docker volume ls`                    | List Docker volumes                |
+| `docker network ls`                   | List Docker networks               |
+| `docker stats`                        | Monitor running containers         |
+| `docker system prune -a --volumes -f` | Clean unused Docker data           |
 
 ---
 
 ## 🖼️ Screenshots
 
 ### 🌍 Login Page
+
 ![Login Page](screenshots/login.png)
 
 ### 📊 Dashboard
+
 ![Dashboard](screenshots/dashboard.png)
 
 ### ➕ Add New Activity
+
 ![Add Activity](screenshots/add.png)
 
 ### 🧮 Admin Panel
+
 ![Admin Panel](screenshots/admin.png)
 
 ---
 
-### 🧰 Docker Setup (Server Deployment Proof)
+### 🧰 Docker & Deployment Proof
 
-#### 🧱 Docker Containers, Volumes & Network
+#### 🧱 Containers, Volumes & Networks
+
 ![Docker Info](screenshots/docker_info.png)
 
-#### ⚙️ Docker Resource Usage
+#### ⚙️ Resource Usage
+
 ![Docker Stats](screenshots/docker_stats.png)
 
 #### 🟢 Docker Service Status
+
 ![Docker Status](screenshots/docker_status.png)
 
-
-## 📊 Future Roadmap
-
-* 🌍 Global leaderboard by CO₂ score
-* 📈 Interactive analytics dashboard
-* 🌤️ Integration with Climatiq API for real emission data
-* 🧠 AI-based personalized eco-friendly recommendations
-* 🔐 Google / Microsoft OAuth Login
-
 ---
+
+
+
 
 ## 👨‍💻 Author
 
 **Syed Uzair**
 
-
 ---
 
 ## 💚 Acknowledgment
 
-This project supports the **United Nations Sustainable Development Goal 13: Climate Action**.
+This project supports **UN Sustainable Development Goal 13: Climate Action**.
 
 > *“The first step to a sustainable future is knowing your impact — GreenSteps helps you take that step.”*
 
 ---
 
+## 🛠️ Tags
+
+`#DevOps` `#AWS` `#Docker` `#Nginx` `#Django` `#MySQL` `#Gunicorn` `#CloudDeployment` `#Sustainability`
+
+---
+
 ## ⭐ Support the Project
 
-If you find this project interesting:
+If you liked this project:
 
-* 🌟 Star this repo
-* 🍴 Fork it
+* 🌟 Star the repository
+* 🍴 Fork & explore
 * 💬 Share feedback
 * 🚀 Try it live at [http://13.127.113.33](http://13.127.113.33)
 
 ---
+
+````
+
