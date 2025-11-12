@@ -1,4 +1,4 @@
-# 🚀 GreenSteps – 2-Tier Full-Stack Application Deployed on AWS (Django + MySQL + Docker + Nginx)
+# 🌱GreenSteps – 2-Tier Full-Stack Application Deployed on AWS (Django + MySQL + Docker + Nginx)
 
 **GreenSteps** is a containerized **2-Tier Web Application** that promotes sustainability by tracking users’ daily carbon footprint.
 It follows a **DevOps-based deployment architecture** using **Docker, Docker Compose, Nginx reverse proxy**, and **AWS EC2** for cloud hosting.
