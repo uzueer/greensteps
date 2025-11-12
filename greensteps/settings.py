@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'greensteps_db'),
         'USER': os.getenv('DB_USER', 'greensteps_user'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'greensteps_pass'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'HOST': os.getenv('DB_HOST', 'db'),
         'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
