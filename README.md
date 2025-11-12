@@ -242,6 +242,3 @@ If you find this project interesting:
 * 🚀 Try it live at [http://13.127.113.33](http://13.127.113.33)
 
 ---
-
-````
-
